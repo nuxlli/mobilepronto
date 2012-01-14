@@ -40,14 +40,14 @@ MobilePronto.configure do |config|
 end
 
 sms = {
-  to      : 552199999999,
-  aux_user: "MYUSER",
-  message : "Mensagem de test"
+  :mobile   => 552199999999,
+  :aux_user => "MYUSER",
+  :message  => "Mensagem de test"
 }
 
 # Using blocks to analyze the result
 MobilePronto.send_sms(sms) do |result|
-  result.on(000) { puts "Mensagem sendend..." }
+  result.on(:ok) { puts "Mensagem sendend..." }
   result.on(001..999) { puts "Ops: #{result.error.message}"}
 end
 

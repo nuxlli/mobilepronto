@@ -6,13 +6,13 @@ class MobilePronto
     def self.extended(base)
       base.send(:include, ActiveSupport::Configurable)
     end
-    
-    def send_msg(options = {})
-      request(options.merge(config))
+
+    def send_msg(options = {}, &block)
+      request(options.merge(config), &block)
     end
-    
+
     private
-    
+
     def request(params)
       query     = build_query(params)
       uri       = URI.parse(config.url_api)
@@ -21,12 +21,13 @@ class MobilePronto
       request   = Net::HTTP::Get.new(uri.request_uri)
       response  = http.request(request)
       if (response.body != "000")
-        raise SendError.new(response.body)
+        error = SendError.new(response.body)
+        block_given? ? yield(Result.new(response.body, error)) : raise(error)
       else
-        :ok
+        block_given? ? yield(Result.new(:ok)) : :ok
       end
     end
-    
+
     def build_query(params)
       keys = {
         :credencial   => 'CREDENCIAL',
@@ -36,16 +37,16 @@ class MobilePronto
         :send_project => 'SEND_PROJECT',
         :message      => 'MESSAGE'
       }
-      
+
       params = params.inject({}) do |options, (key, value)|
         options[(key.to_sym rescue key) || key] = value
         options
       end
-      
+
       unless params[:send_project].nil?
         params[:send_project] = params[:send_project] ? 'S' : 'N'
       end
-      
+
       params.map { |k, v| "#{keys[k]}=#{URI.escape(v.to_s)}" }.join("&")
     end
   end
