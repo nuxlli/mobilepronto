@@ -34,7 +34,7 @@ MobilePronto.configure do |config|
   # Default api url
   # config.url_api = "http://www.mpgateway.com/v_2_00/smspush/enviasms.aspx"
   
-  config.credential   = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  config.credencial   = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   config.project_name = "MYPROJECT"
   config.send_project = true
 end
