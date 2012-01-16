@@ -47,7 +47,7 @@ class MobilePronto
         params[:send_project] = params[:send_project] ? 'S' : 'N'
       end
 
-      params.map { |k, v| "#{keys[k]}=#{URI.escape(v.to_s)}" }.join("&")
+      params.map { |k, v| keys.key?(k) ? "#{keys[k]}=#{URI.escape(v.to_s)}" : nil }.compact.join("&")
     end
   end
 end

@@ -40,9 +40,9 @@ MobilePronto.configure do |config|
 end
 
 sms = {
-  :mobile   => 552199999999,
-  :aux_user => "MYUSER",
-  :message  => "Mensagem de test"
+  :mobile    => 552199999999,
+  :user_name => "MYUSER",
+  :message   => "Mensagem de test"
 }
 
 # Using blocks to analyze the result
@@ -69,3 +69,4 @@ http://www.mobilepronto.info/samples/en-US/1205-httpget-php-v_2_00.pdf
 MobilePronto is licensed under the [BSD License](http://opensource.org/licenses/BSD-2-Clause).
 
 See LICENSE file for details.
+

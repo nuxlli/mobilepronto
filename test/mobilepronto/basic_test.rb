@@ -48,6 +48,16 @@ describe MobilePronto::Basic do
       )
     end
 
+    it "should skiped invalid parameters to query string build" do
+      stub_http_request(:get, @kclass.config.url_api).to_return(:body => "000").with(:query => {
+        "CREDENCIAL" => "XXXX"
+      })
+      assert_equal :ok, @kclass.send_msg(
+        :credencial => "XXXX",
+        :invalid_item => "foobar"
+      )
+    end
+
     it "should raise exception is returns not equal 000" do
       stub_http_request(:get, @kclass.config.url_api).to_return(:body => "001")
       assert_raises(MobilePronto::SendError, "001 - Credencial Inválida.") do
