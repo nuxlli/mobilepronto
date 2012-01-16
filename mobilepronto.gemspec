@@ -1,8 +1,10 @@
+# encoding: UTF-8
 # -*- encoding: utf-8 -*-
+
 lib = File.expand_path('../lib/', __FILE__)
 $:.unshift lib unless $:.include?(lib)
 
-require "mobilepronto"
+require "mobilepronto/version"
 begin
   require "step-up"
 rescue Exception => e; end

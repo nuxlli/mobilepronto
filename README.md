@@ -48,7 +48,7 @@ sms = {
 # Using blocks to analyze the result
 MobilePronto.send_sms(sms) do |result|
   result.on(:ok) { puts "Mensagem sendend..." }
-  result.on(001..999) { puts "Ops: #{result.error.message}"}
+  result.on(1..999) { puts "Ops: #{result.error.message}"}
 end
 
 # Or begin/rescue

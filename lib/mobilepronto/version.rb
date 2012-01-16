@@ -1,3 +1,4 @@
+# encoding: UTF-8
 class MobilePronto
   module VERSION #:nodoc:
     version = nil

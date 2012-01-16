@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 namespace :mobilepronto do
   desc 'task description'
   task :utils => :environment do
