@@ -83,5 +83,16 @@ describe MobilePronto::Basic do
         result.on(1..17) { result.error.message }
       end)
     end
+
+    it "should remove accentuation if option is set" do
+      stub_http_request(:get, @kclass.config.url_api).to_return(:body => "000").with(:query => {
+        "MESSAGE"        => "Sr. Antonio, nao compareca, isto nao e uma brincadeira."
+      })
+
+      assert_equal :ok, @kclass.send_msg(
+        message: 'Sr. Antônio, não compareça, isto não é uma brincadeira.',
+        transliterate: true
+      )
+    end
   end
 end

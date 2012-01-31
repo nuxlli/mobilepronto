@@ -1,5 +1,7 @@
 # encoding: UTF-8
 require 'active_support/configurable'
+require 'active_support/inflector'
+require 'active_support/core_ext/hash'
 
 class MobilePronto
   module Basic
@@ -38,9 +40,9 @@ class MobilePronto
         :message      => 'MESSAGE'
       }
 
-      params = params.inject({}) do |options, (key, value)|
-        options[(key.to_sym rescue key) || key] = value
-        options
+      params.symbolize_keys!
+      if params.delete(:transliterate) and params.include?(:message)
+        params[:message] = ActiveSupport::Inflector.transliterate(params[:message])
       end
 
       unless params[:send_project].nil?
