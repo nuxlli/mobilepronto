@@ -124,5 +124,18 @@ describe MobilePronto::Basic do
         send_project: true
       )
     end
+
+    it "should remove mark addr if size not exceded the message limit" do
+      primary_msg = "Olá [abbr]Daniel Boo Sulivan[/abbr]."
+      final_msg   = "Olá Daniel Boo Sulivan."
+
+      stub_http_request(:get, @kclass.config.url_api).to_return(:body => "000").with(:query => {
+        "MESSAGE"  => final_msg
+      })
+
+      assert_equal :ok, @kclass.send_msg(
+        message: primary_msg
+      )
+    end
   end
 end

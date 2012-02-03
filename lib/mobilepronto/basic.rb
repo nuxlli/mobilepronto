@@ -50,11 +50,9 @@ class MobilePronto
         limit = 160
         limit = limit - ((params[:project_name] || "" ).size + 1) if params[:send_project]
 
-        msg = /(.*)\[abbr\](.*)\[\/abbr\](.*)/.match(params[:message])
-        if msg and msg[1..3].join('').size > limit
-          size = limit - (msg[1..3].join('').size - msg[2].size)
-          abbr = Abbreviation.abbr(msg[2], size)
-          params[:message] = "#{msg[1]}#{abbr}#{msg[3]}"
+        if (msg = /(.*)\[abbr\](.*)\[\/abbr\](.*)/.match(params[:message]))
+          max = limit - (msg[1..3].join('').size - msg[2].size)
+          params[:message] = "#{msg[1]}#{Abbreviation.abbr(msg[2], max)}#{msg[3]}"
         end
       end
 
