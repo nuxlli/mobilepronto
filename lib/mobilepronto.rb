@@ -10,6 +10,7 @@ require File.dirname(__FILE__) + '/mobilepronto/version'
 require File.dirname(__FILE__) + '/mobilepronto/errors'
 require File.dirname(__FILE__) + '/mobilepronto/result'
 require File.dirname(__FILE__) + '/mobilepronto/basic'
+require File.dirname(__FILE__) + '/mobilepronto/abbreviation'
 
 class MobilePronto
   extend Basic

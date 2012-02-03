@@ -41,8 +41,21 @@ class MobilePronto
       }
 
       params.symbolize_keys!
-      if params.delete(:transliterate) and params.include?(:message)
-        params[:message] = ActiveSupport::Inflector.transliterate(params[:message])
+
+      if params.include?(:message)
+        if params.delete(:transliterate)
+          params[:message] = ActiveSupport::Inflector.transliterate(params[:message])
+        end
+
+        limit = 160
+        limit = limit - ((params[:project_name] || "" ).size + 1) if params[:send_project]
+
+        msg = /(.*)\[abbr\](.*)\[\/abbr\](.*)/.match(params[:message])
+        if msg and msg[1..3].join('').size > limit
+          size = limit - (msg[1..3].join('').size - msg[2].size)
+          abbr = Abbreviation.abbr(msg[2], size)
+          params[:message] = "#{msg[1]}#{abbr}#{msg[3]}"
+        end
       end
 
       unless params[:send_project].nil?

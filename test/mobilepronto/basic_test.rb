@@ -94,5 +94,35 @@ describe MobilePronto::Basic do
         transliterate: true
       )
     end
+
+    it "should abbr string if mark to abbr. and size exceeded the message limit" do
+      primary_msg = "Olá [abbr]Daniel Boo Sulivan[/abbr], Shoreditch artisan retro quis nulla. Portland thundercats helvetica, proident placeat artisan eiusmod sunt sustainable. Single-origin cof"
+      final_msg   = "Olá Daniel B. Sulivan, Shoreditch artisan retro quis nulla. Portland thundercats helvetica, proident placeat artisan eiusmod sunt sustainable. Single-origin cof"
+
+      stub_http_request(:get, @kclass.config.url_api).to_return(:body => "000").with(:query => {
+        "MESSAGE"  => final_msg
+      })
+
+      assert_equal :ok, @kclass.send_msg(
+        message: primary_msg
+      )
+    end
+
+    it "should abbr string if mark to abbr. and size exceeded the message limit" do
+      primary_msg = "Olá [abbr]Daniel Boo Sulivan[/abbr] Shoreditch artisan retro quis nulla. Portland thundercats helvetica proident placeat artisan eiusmod sunt sustainable. Single-origin cof"
+      final_msg   = "Olá Daniel B. S. Shoreditch artisan retro quis nulla. Portland thundercats helvetica proident placeat artisan eiusmod sunt sustainable. Single-origin cof"
+
+      stub_http_request(:get, @kclass.config.url_api).to_return(:body => "000").with(:query => {
+        "MESSAGE"        => final_msg,
+        "PRINCIPAL_USER" => "TEST",
+        "SEND_PROJECT"   => "S"
+      })
+
+      assert_equal :ok, @kclass.send_msg(
+        message: primary_msg,
+        project_name: "TEST",
+        send_project: true
+      )
+    end
   end
 end
