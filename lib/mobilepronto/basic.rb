@@ -47,7 +47,7 @@ class MobilePronto
           params[:message] = ActiveSupport::Inflector.transliterate(params[:message])
         end
 
-        limit = 160
+        limit = 142
         limit = limit - ((params[:project_name] || "" ).size + 1) if params[:send_project]
 
         if (msg = /(.*)\[abbr\](.*)\[\/abbr\](.*)/.match(params[:message]))

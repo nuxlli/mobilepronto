@@ -96,8 +96,8 @@ describe MobilePronto::Basic do
     end
 
     it "should abbr string if mark to abbr. and size exceeded the message limit" do
-      primary_msg = "Olá [abbr]Daniel Boo Sulivan[/abbr], Shoreditch artisan retro quis nulla. Portland thundercats helvetica, proident placeat artisan eiusmod sunt sustainable. Single-origin cof"
-      final_msg   = "Olá Daniel B. Sulivan, Shoreditch artisan retro quis nulla. Portland thundercats helvetica, proident placeat artisan eiusmod sunt sustainable. Single-origin cof"
+      primary_msg = "Olá [abbr]Daniel Boo Sulivan[/abbr], Shoreditch artisan retro quis nulla. Portland thundercats helvetica, proident placeat artisan eiusmod sunt sustainable."
+      final_msg   = "Olá Daniel B. Sulivan, Shoreditch artisan retro quis nulla. Portland thundercats helvetica, proident placeat artisan eiusmod sunt sustainable."
 
       stub_http_request(:get, @kclass.config.url_api).to_return(:body => "000").with(:query => {
         "MESSAGE"  => final_msg
